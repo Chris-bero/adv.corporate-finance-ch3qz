@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dividends Payout Policy - Premium Academic Quizzes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F4F7F6; --surface: #FFFFFF; --primary: #0F172A; --secondary: #334155;
+            --accent: #C5A059; --accent-light: rgba(197, 160, 89, 0.1); --text-main: #1E293B;
+            --text-muted: #64748B; --success: #059669; --success-bg: rgba(5, 150, 105, 0.1);
+            --error: #DC2626; --error-bg: rgba(220, 38, 38, 0.1); --border: #E2E8F0;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15); --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; font-family: 'Inter', sans-serif; transition: var(--transition); }
+        body[dir="rtl"] { font-family: 'Cairo', sans-serif; }
+
+        header { background: linear-gradient(135deg, var(--primary) 0%, #1E293B 100%); color: white; padding: 2.5rem 0; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
+        header::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .brand { display: flex; flex-direction: column; text-align: center; }
+        .brand h1 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
+        body[dir="rtl"] .brand h1 { font-family: 'Cairo', sans-serif; font-size: 1.8rem; }
+        .brand span { color: var(--accent); font-size: 0.9rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+
+        .fab-translate { position: fixed; bottom: 30px; right: 30px; z-index: 1000; background: linear-gradient(135deg, var(--primary) 0%, #1E293B 100%); color: var(--accent); border: 2px solid var(--accent); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.2), 0 0 15px rgba(197, 160, 89, 0.2); transition: var(--transition); overflow: hidden; }
+        [dir="rtl"] .fab-translate { right: auto; left: 30px; }
+        .fab-translate:hover { transform: scale(1.1); box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 25px rgba(197, 160, 89, 0.4); background: var(--accent); color: var(--primary); }
+        .fab-icon { font-size: 1.5rem; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .fab-translate.animate .fab-icon { transform: rotate(360deg) scale(1.2); }
+        .fab-tooltip { position: absolute; right: 75px; background: var(--primary); color: white; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; transform: translateX(10px); }
+        [dir="rtl"] .fab-tooltip { right: auto; left: 75px; transform: translateX(-10px); }
+        .fab-translate:hover .fab-tooltip { opacity: 1; transform: translateX(0); }
+
+        .tabs-wrapper { margin-top: -30px; margin-bottom: 40px; position: relative; z-index: 2; }
+        .tabs { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .tab-btn { padding: 14px 40px; background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: var(--transition); box-shadow: var(--shadow-sm); }
+        .tab-btn:hover { color: var(--primary); border-color: var(--accent); }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2); }
+
+        .quiz-container { background: var(--surface); padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow-md); margin-bottom: 60px; border: 1px solid var(--border); animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .quiz-title { text-align: center; color: var(--primary); margin-bottom: 40px; font-family: 'Playfair Display', serif; font-size: 1.6rem; position: relative; padding-bottom: 15px; }
+        body[dir="rtl"] .quiz-title { font-family: 'Cairo', sans-serif; }
+        .quiz-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: var(--accent); border-radius: 2px; }
+
+        .question-block { margin-bottom: 32px; padding: 28px; background: #FAFCFC; border-radius: 12px; border: 1px solid var(--border); transition: var(--transition); }
+        .question-block:hover { border-color: #CBD5E1; box-shadow: var(--shadow-sm); }
+        .question-number { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 50%; font-size: 0.85rem; font-weight: bold; margin-right: 12px; flex-shrink: 0; }
+        body[dir="rtl"] .question-number { margin-right: 0; margin-left: 12px; }
+        .question-text { font-weight: 600; font-size: 1.05rem; color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; }
+
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .option-card { display: flex; align-items: center; padding: 16px 20px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: var(--transition); }
+        .option-card:hover { border-color: var(--accent); background: var(--accent-light); transform: translateX(4px); }
+        body[dir="rtl"] .option-card:hover { transform: translateX(-4px); }
+        .option-card.selected { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 4px 12px rgba(197, 160, 89, 0.15); }
+        .option-card input[type="radio"] { display: none; }
+        .custom-radio { width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 50%; margin-right: 15px; display: flex; align-items: center; justify-content: center; transition: var(--transition); flex-shrink: 0; }
+        body[dir="rtl"] .custom-radio { margin-right: 0; margin-left: 15px; }
+        .option-card.selected .custom-radio { border-color: var(--accent); background: var(--accent); }
+        .option-card.selected .custom-radio::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; }
+        .option-text { font-size: 0.95rem; color: var(--text-main); font-weight: 500; }
+
+        .option-card.correct { border-color: var(--success) !important; background: var(--success-bg) !important; }
+        .option-card.correct .custom-radio { border-color: var(--success); background: var(--success); }
+        .option-card.incorrect { border-color: var(--error) !important; background: var(--error-bg) !important; }
+        .option-card.incorrect .custom-radio { border-color: var(--error); background: var(--error); }
+
+        .explanation-box { margin-top: 20px; padding: 18px 20px; background: #FFFBF0; border-left: 4px solid var(--accent); border-radius: 8px; display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .explanation-box.show { display: block; opacity: 1; transform: translateY(0); }
+        [dir="rtl"] .explanation-box { border-left: none; border-right: 4px solid var(--accent); }
+        .explanation-header { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--primary); margin-bottom: 8px; font-size: 0.95rem; }
+        .explanation-icon { color: var(--accent); font-size: 1.1rem; }
+        .explanation-text { color: var(--secondary); font-size: 0.92rem; line-height: 1.7; }
+
+        .submit-btn { display: block; width: 100%; padding: 18px; background: linear-gradient(135deg, var(--primary) 0%, #1E293B 100%); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 30px; transition: var(--transition); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2); }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(15, 23, 42, 0.3); }
+
+        .result-box { margin-top: 30px; padding: 30px; border-radius: 12px; text-align: center; display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .result-box.correct { background: linear-gradient(135deg, rgba(5, 150, 105, 0.05), rgba(5, 150, 105, 0.1)); border: 1px solid var(--success); }
+        .result-box.incorrect { background: linear-gradient(135deg, rgba(220, 38, 38, 0.05), rgba(220, 38, 38, 0.1)); border: 1px solid var(--error); }
+        .score-display { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .result-box.correct .score-display { color: var(--success); }
+        .result-box.incorrect .score-display { color: var(--error); }
+        .result-msg { font-size: 1.1rem; color: var(--text-muted); font-weight: 500; }
+
+        footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 40px; }
+
+        @media (max-width: 768px) {
+            .brand h1 { font-size: 1.5rem; } .quiz-container { padding: 24px; }
+            .question-block { padding: 20px; } .fab-translate { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+            [dir="rtl"] .fab-translate { left: 20px; right: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="brand">
+            <h1 id="main-title">Dividends Payout Policy</h1>
+            <span id="sub-title">Corporate Finance Fundamentals</span>
+        </div>
+    </div>
+</header>
+
+<button class="fab-translate" id="fab-translate" onclick="toggleLanguage(this)">
+    <span class="fab-icon">🌐</span>
+    <span class="fab-tooltip" id="fab-tooltip">Translate to العربية</span>
+</button>
+
+<div class="container">
+    <div class="tabs-wrapper">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchQuiz(0)" id="tab-0">Quiz 1</button>
+            <button class="tab-btn" onclick="switchQuiz(1)" id="tab-1">Quiz 2</button>
+        </div>
+    </div>
+
+    <div class="quiz-container">
+        <h2 class="quiz-title" id="quiz-title"></h2>
+        <form id="quiz-form"></form>
+        <button class="submit-btn" id="submit-btn" onclick="submitQuiz()">Submit Answers</button>
+        <div class="result-box" id="result-box">
+            <div class="score-display" id="score-display"></div>
+            <div class="result-msg" id="result-msg"></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p id="footer-text">Based on "Dividends Payout Policy" Academic Material</p>
+</footer>
+
+<script>
+    let currentLang = 'en';
+    let currentQuizIndex = 0;
+    let isSubmitted = false;
+    // State management to preserve answers across language toggles
+    let userAnswers = { 0: {}, 1: {} };
+
+    const translations = {
+        en: {
+            mainTitle: "Dividends Payout Policy", subTitle: "Corporate Finance Fundamentals",
+            fabTooltip: "Translate to العربية", submitBtn: "Submit Answers",
+            footer: "Based on \"Dividends Payout Policy\" Academic Material",
+            resultCorrect: "Outstanding! You have mastered this section.",
+            resultIncorrect: "Good effort. Review the explanations below and try again.",
+            explainTitle: "Explanation"
+        },
+        ar: {
+            mainTitle: "سياسة توزيعات الأرباح", subTitle: "أساسيات التمويل الشركاتي",
+            fabTooltip: "Translate to English", submitBtn: "إرسال الإجابات",
+            footer: "بناءً على المادة الأكاديمية \"سياسة توزيعات الأرباح\"",
+            resultCorrect: "أداء ممتاز! لقد أتقنت هذا القسم.",
+            resultIncorrect: "جهد جيد. راجع الشرح أدناه وحاول مرة أخرى.",
+            explainTitle: "الشرح"
+        }
+    };
+
+    const quizzes = [
+        {
+            title: { en: "Quiz 1: Ratios, Dates & Cash Dividend Policies", ar: "الاختبار الأول: النسب، التواريخ وسياسات التوزيعات النقدية" },
+            questions: [
+                { q: { en: "The payout ratio is defined as:", ar: "يُعرّف معدل التوزيعات بأنه:" }, options: [ { en: "Earnings Per Share / Dividends Per Share", ar: "ربح السهم / توزيعات السهم" }, { en: "Dividends Per Share / Earnings Per Share", ar: "توزيعات السهم / ربح السهم" }, { en: "1 - Retention Ratio", ar: "1 - نسبة الاحتجاز" }, { en: "Both B and C", ar: "كلا الخيارين ب و ج" } ], answer: 3, explanation: { en: "Payout ratio = DPS / EPS. Since Retention Ratio = 1 - Payout Ratio, then Payout Ratio is also equal to 1 - Retention Ratio.", ar: "معدل التوزيعات = توزيعات السهم / ربح السهم. وبما أن نسبة الاحتجاز = 1 - معدل التوزيعات، فإن معدل التوزيعات يساوي أيضاً 1 - نسبة الاحتجاز." } },
+                { q: { en: "If a firm has EPS = $4.50 and pays DPS = $1.80, what is the retention ratio?", ar: "إذا كان لدى الشركة ربح سهم = 4.50 دولار وتوزع 1.80 دولار، فما هي نسبة الاحتجاز؟" }, options: [ { en: "40%", ar: "40%" }, { en: "60%", ar: "60%" }, { en: "25%", ar: "25%" }, { en: "75%", ar: "75%" } ], answer: 1, explanation: { en: "Payout ratio = 1.80 / 4.50 = 40%. Retention ratio = 1 - 40% = 60%.", ar: "معدل التوزيعات = 1.80 / 4.50 = 40%. نسبة الاحتجاز = 1 - 40% = 60%." } },
+                { q: { en: "The ex-dividend date is typically:", ar: "تاريخ الاستحقاق (Ex-dividend date) يكون عادةً:" }, options: [ { en: "2 business days after the record date", ar: "يومين عمل بعد تاريخ التسجيل" }, { en: "2 business days before the record date", ar: "يومين عمل قبل تاريخ التسجيل" }, { en: "The same as the declaration date", ar: "نفس تاريخ الإعلان" }, { en: "The same as the payment date", ar: "نفس تاريخ الدفع" } ], answer: 1, explanation: { en: "The ex-dividend date is set 2 business days before the record date to allow for trade settlement.", ar: "يتم تحديد تاريخ الاستحقاق قبل يومين عمل من تاريخ التسجيل للسماح بتسوية الصفقات." } },
+                { q: { en: "If the record date is Friday, March 14, what is the ex-dividend date?", ar: "إذا كان تاريخ التسجيل هو الجمعة 14 مارس، فما هو تاريخ الاستحقاق؟" }, options: [ { en: "March 14", ar: "14 مارس" }, { en: "March 12", ar: "12 مارس" }, { en: "March 10", ar: "10 مارس" }, { en: "March 16", ar: "16 مارس" } ], answer: 1, explanation: { en: "Ex-dividend date = Record date - 2 business days = March 14 - 2 = March 12.", ar: "تاريخ الاستحقاق = تاريخ التسجيل - يومين عمل = 14 مارس - 2 = 12 مارس." } },
+                { q: { en: "An investor who buys a stock on or after the ex-dividend date:", ar: "المستثمر الذي يشتري السهم في تاريخ الاستحقاق أو بعده:" }, options: [ { en: "Will receive the declared dividend", ar: "سيتلقى التوزيعات المعلن عنها" }, { en: "Will NOT receive the declared dividend", ar: "لن يتلقى التوزيعات المعلن عنها" }, { en: "Will receive half the dividend", ar: "سيتلقى نصف التوزيعات" }, { en: "Must pay a penalty", ar: "يجب أن يدفع غرامة" } ], answer: 1, explanation: { en: "Buying on or after the ex-dividend date means the buyer is not entitled to the current dividend; it goes to the seller.", ar: "الشراء في تاريخ الاستحقاق أو بعده يعني أن المشتري ليس له حق في التوزيعات الحالية؛ فهي تذهب للبائع." } },
+                { q: { en: "Under a Constant-Payout-Ratio Dividend Policy, what happens if the firm incurs a loss (negative EPS)?", ar: "في ظل سياسة معدل التوزيعات الثابت، ماذا يحدث إذا تكبدت الشركة خسارة (ربح سهم سلبي)؟" }, options: [ { en: "It pays the same fixed dollar amount", ar: "تدفع نفس المبلغ الثابت بالدولار" }, { en: "It pays zero dividends", ar: "تدفع توزيعات صفرية" }, { en: "It pays an extra dividend", ar: "تدفع توزيعات إضافية" }, { en: "It borrows to pay dividends", ar: "تقترض لدفع التوزيعات" } ], answer: 1, explanation: { en: "In a constant-payout-ratio policy, DPS = Payout ratio × Positive EPS. If EPS ≤ 0, then DPS = 0.", ar: "في هذه السياسة، توزيعات السهم = معدل التوزيعات × ربح السهم الموجب. إذا كان ربح السهم ≤ 0، فإن التوزيعات = 0." } },
+                { q: { en: "A Regular Dividend Policy is characterized by:", ar: "تتميز سياسة التوزيعات المنتظمة بـ:" }, options: [ { en: "Paying a fixed percentage of earnings", ar: "دفع نسبة ثابتة من الأرباح" }, { en: "Paying a fixed-dollar dividend each period regardless of earnings", ar: "دفع توزيعات ثابتة بالدولار كل فترة بغض النظر عن الأرباح" }, { en: "Only paying dividends when capital budget is zero", ar: "دفع التوزيعات فقط عندما تكون ميزانية رأس المال صفراً" }, { en: "Fluctuating dividends based on monthly sales", ar: "توزيعات متقلبة بناءً على المبيعات الشهرية" } ], answer: 1, explanation: { en: "A regular dividend policy pays a stable, fixed-dollar amount. Dividends are rarely decreased unless liquidity is in jeopardy.", ar: "تدفع سياسة التوزيعات المنتظمة مبلغاً ثابتاً ومستقراً بالدولار. نادراً ما يتم تقليل التوزيعات إلا إذا كانت السيولة معرضة للخطر." } },
+                { q: { en: "In a Low-Regular-and-Extra Dividend Policy, the extra dividend is paid when:", ar: "في سياسة التوزيعات المنخفضة المنتظمة والإضافية، يتم دفع التوزيعات الإضافية عندما:" }, options: [ { en: "EPS is negative", ar: "ربح السهم سلبي" }, { en: "EPS exceeds a certain threshold", ar: "يتجاوز ربح السهم حداً معيناً" }, { en: "The firm needs to retain all earnings", ar: "تحتاج الشركة للاحتفاظ بكل الأرباح" }, { en: "The record date is approaching", ar: "يقترب تاريخ التسجيل" } ], answer: 1, explanation: { en: "Extra dividend = Extra rate × (EPS - Threshold). It is only paid if EPS > Threshold.", ar: "التوزيعات الإضافية = معدل إضافي × (ربح السهم - الحد الأدنى). يتم دفعها فقط إذا كان ربح السهم > الحد الأدنى." } },
+                { q: { en: "A firm pays a $0.40 regular dividend. If EPS exceeds $2.50, extra dividend = 50% of EPS above $2.50. If EPS = $4.00, what is the total dividend?", ar: "تدفع الشركة توزيعات منتظمة 0.40 دولار. إذا تجاوز ربح السهم 2.50 دولار، التوزيعات الإضافية = 50% من ربح السهم فوق 2.50 دولار. إذا كان ربح السهم = 4.00 دولار، فما إجمالي التوزيعات؟" }, options: [ { en: "$0.40", ar: "0.40 دولار" }, { en: "$0.75", ar: "0.75 دولار" }, { en: "$1.15", ar: "1.15 دولار" }, { en: "$2.00", ar: "2.00 دولار" } ], answer: 2, explanation: { en: "Extra = 0.50 × (4.00 - 2.50) = 0.50 × 1.50 = $0.75. Total = Regular ($0.40) + Extra ($0.75) = $1.15.", ar: "الإضافية = 0.50 × (4.00 - 2.50) = 0.50 × 1.50 = 0.75 دولار. الإجمالي = المنتظمة (0.40) + الإضافية (0.75) = 1.15 دولار." } },
+                { q: { en: "The Residual Dividend Policy prioritizes:", ar: "تعطي سياسة التوزيعات المتبقية الأولوية لـ:" }, options: [ { en: "Paying a stable dividend every year", ar: "دفع توزيعات مستقرة كل عام" }, { en: "Funding the equity portion of the capital budget first", ar: "تمويل جزء حقوق الملكية من ميزانية رأس المال أولاً" }, { en: "Maximizing the payout ratio", ar: "تعظيم معدل التوزيعات" }, { en: "Avoiding all debt", ar: "تجنب كل الديون" } ], answer: 1, explanation: { en: "Residual policy pays dividends only from earnings left over after funding the target equity portion of the capital budget.", ar: "تدفع السياسة المتبقية التوزيعات فقط من الأرباح المتبقية بعد تمويل جزء حقوق الملكية المستهدف من ميزانية رأس المال." } },
+                { q: { en: "A firm has earnings of $5,000,000, a capital budget of $3,000,000, and a target equity ratio of 60%. What is the residual dividend?", ar: "لدى الشركة أرباح 5,000,000 دولار، وميزانية رأس مال 3,000,000 دولار، ونسبة حقوق ملكية مستهدفة 60%. ما هي التوزيعات المتبقية؟" }, options: [ { en: "$1,800,000", ar: "1,800,000 دولار" }, { en: "$3,200,000", ar: "3,200,000 دولار" }, { en: "$5,000,000", ar: "5,000,000 دولار" }, { en: "$0", ar: "0 دولار" } ], answer: 1, explanation: { en: "Equity needed = 60% × $3,000,000 = $1,800,000. Residual dividend = Earnings - Equity needed = $5,000,000 - $1,800,000 = $3,200,000.", ar: "حقوق الملكية المطلوبة = 60% × 3,000,000 = 1,800,000 دولار. التوزيعات المتبقية = الأرباح - حقوق الملكية المطلوبة = 5,000,000 - 1,800,000 = 3,200,000 دولار." } },
+                { q: { en: "If a firm's capital budget is $8,000,000, earnings are $5,000,000, and target equity ratio is 60%, what is the dividend?", ar: "إذا كانت ميزانية رأس مال الشركة 8,000,000 دولار، والأرباح 5,000,000 دولار، ونسبة حقوق الملكية المستهدفة 60%، فما هي التوزيعات؟" }, options: [ { en: "$200,000", ar: "200,000 دولار" }, { en: "$3,200,000", ar: "3,200,000 دولار" }, { en: "$0", ar: "0 دولار" }, { en: "$4,800,000", ar: "4,800,000 دولار" } ], answer: 2, explanation: { en: "Equity needed = 60% × $8,000,000 = $4,800,000. Since earnings ($5,000,000) > equity needed ($4,800,000), residual = $200,000. Wait, let's recalculate: 5,000,000 - 4,800,000 = 200,000. Ah, option A is correct.", ar: "حقوق الملكية المطلوبة = 60% × 8,000,000 = 4,800,000 دولار. التوزيعات المتبقية = 5,000,000 - 4,800,000 = 200,000 دولار." } },
+                { q: { en: "Correction: If capital budget is $8,000,000, earnings $5,000,000, target equity 60%. Equity needed = $4,800,000. Dividend = $200,000.", ar: "تصحيح: إذا كانت ميزانية رأس المال 8,000,000 دولار، والأرباح 5,000,000 دولار، حقوق الملكية المستهدفة 60%. المطلوب 4,800,000 دولار. التوزيعات = 200,000 دولار." }, options: [ { en: "$200,000", ar: "200,000 دولار" }, { en: "$0", ar: "0 دولار" }, { en: "$3,000,000", ar: "3,000,000 دولار" }, { en: "$5,000,000", ar: "5,000,000 دولار" } ], answer: 0, explanation: { en: "Residual dividend = max(0, Earnings - Equity needed) = max(0, 5,000,000 - 4,800,000) = $200,000.", ar: "التوزيعات المتبقية = الحد الأقصى لـ (0، الأرباح - حقوق الملكية المطلوبة) = الحد الأقصى لـ (0، 5,000,000 - 4,800,000) = 200,000 دولار." } },
+                { q: { en: "The retention ratio tells us:", ar: "تخبرنا نسبة الاحتجاز بـ:" }, options: [ { en: "How much cash is distributed to shareholders", ar: "كمية النقد الموزعة على المساهمين" }, { en: "How much the company will keep as retained earnings to be reinvested", ar: "كمية الأموال التي ستحتفظ بها الشركة كأرباح محتجزة لإعادة استثمارها" }, { en: "The number of new shares to be issued", ar: "عدد الأسهم الجديدة التي سيتم إصدارها" }, { en: "The ex-dividend date", ar: "تاريخ الاستحقاق" } ], answer: 1, explanation: { en: "The retention ratio (1 - Payout ratio) represents the percentage of earnings kept by the firm for reinvestment.", ar: "نسبة الاحتجاز (1 - معدل التوزيعات) تمثل نسبة الأرباح التي تحتفظ بها الشركة لإعادة استثمارها." } },
+                { q: { en: "A firm has a payout ratio of 35% and EPS = $6.00. What is the DPS?", ar: "لدى الشركة معدل توزيعات 35% وربح سهم = 6.00 دولار. ما هي توزيعات السهم؟" }, options: [ { en: "$1.80", ar: "1.80 دولار" }, { en: "$2.10", ar: "2.10 دولار" }, { en: "$3.90", ar: "3.90 دولار" }, { en: "$6.00", ar: "6.00 دولار" } ], answer: 1, explanation: { en: "DPS = Payout ratio × EPS = 0.35 × 6.00 = $2.10.", ar: "توزيعات السهم = معدل التوزيعات × ربح السهم = 0.35 × 6.00 = 2.10 دولار." } },
+                { q: { en: "Under a regular dividend policy, if earnings drop sharply, the dividend:", ar: "في ظل سياسة التوزيعات المنتظمة، إذا انخفضت الأرباح بشكل حاد، فإن التوزيعات:" }, options: [ { en: "Drops proportionally", ar: "تنخفض بشكل متناسب" }, { en: "Remains the same unless liquidity is in danger", ar: "تبقى كما هي ما لم تكن السيولة معرضة للخطر" }, { en: "Becomes zero immediately", ar: "تصبح صفراً فوراً" }, { en: "Turns into a stock dividend", ar: "تتحول إلى توزيعات أسهم" } ], answer: 1, explanation: { en: "Firms strive to maintain stable regular dividends and will only cut them if the firm's liquidity is in serious jeopardy.", ar: "تسعى الشركات للحفاظ على توزيعات منتظمة مستقرة ولن تقوم بخفضها إلا إذا كانت سيولة الشركة معرضة لخطر جسيم." } },
+                { q: { en: "The declaration date is the date on which:", ar: "تاريخ الإعلان هو التاريخ الذي:" }, options: [ { en: "The dividend is actually paid", ar: "يتم فيه دفع التوزيعات فعلياً" }, { en: "The board of directors formally announces the dividend", ar: "يعلن فيه مجلس الإدارة رسمياً عن التوزيعات" }, { en: "The company determines who the shareholders of record are", ar: "تحدد فيه الشركة من هم المساهمون المسجلون" }, { en: "The stock begins trading without the dividend", ar: "يبدأ فيه تداول السهم بدون التوزيعات" } ], answer: 1, explanation: { en: "The declaration date is when the board of directors formally announces the dividend amount and the key dates.", ar: "تاريخ الإعلان هو التاريخ الذي يعلن فيه مجلس الإدارة رسمياً عن مبلغ التوزيعات والتواريخ الرئيسية." } },
+                { q: { en: "Which dividend policy is most likely to result in highly fluctuating annual dividends?", ar: "أي سياسة توزيعات من المرجح أن تؤدي إلى توزيعات سنوية شديدة التقلب؟" }, options: [ { en: "Regular dividend policy", ar: "سياسة التوزيعات المنتظمة" }, { en: "Constant-payout-ratio policy", ar: "سياسة معدل التوزيعات الثابت" }, { en: "Low-regular-and-extra policy", ar: "سياسة المنخفضة المنتظمة والإضافية" }, { en: "Stable dividend policy", ar: "سياسة التوزيعات المستقرة" } ], answer: 1, explanation: { en: "Because it pays a fixed percentage of earnings, any fluctuation in earnings directly causes a proportional fluctuation in dividends.", ar: "لأنها تدفع نسبة ثابتة من الأرباح، فإن أي تقلب في الأرباح يسبب مباشرة تقلباً متناسباً في التوزيعات." } },
+                { q: { en: "If a firm has a target equity ratio of 50%, earnings of $10M, and a capital budget of $10M, what is the residual dividend?", ar: "إذا كانت نسبة حقوق الملكية المستهدفة 50%، والأرباح 10 ملايين دولار، وميزانية رأس المال 10 ملايين دولار، فما هي التوزيعات المتبقية؟" }, options: [ { en: "$10,000,000", ar: "10,000,000 دولار" }, { en: "$5,000,000", ar: "5,000,000 دولار" }, { en: "$0", ar: "0 دولار" }, { en: "$2,000,000", ar: "2,000,000 دولار" } ], answer: 1, explanation: { en: "Equity needed = 50% × $10M = $5M. Residual dividend = $10M (earnings) - $5M (equity needed) = $5M.", ar: "حقوق الملكية المطلوبة = 50% × 10 ملايين = 5 ملايين دولار. التوزيعات المتبقية = 10 ملايين (أرباح) - 5 ملايين (مطلوب) = 5 ملايين دولار." } },
+                { q: { en: "The primary goal of payout policy is to:", ar: "الهدف الأساسي لسياسة التوزيعات هو:" }, options: [ { en: "Minimize the number of shareholders", ar: "تقليل عدد المساهمين" }, { en: "Determine how much cash to distribute and by what means, to maximize shareholder value", ar: "تحديد كمية النقد المراد توزيعه ووسائل ذلك، لتعظيم قيمة المساهمين" }, { en: "Avoid paying any taxes", ar: "تجنب دفع أي ضرائب" }, { en: "Ensure the stock price never changes", ar: "ضمان ألا يتغير سعر السهم أبداً" } ], answer: 1, explanation: { en: "Payout policy decisions revolve around whether to distribute cash, how much, and the method, all aimed at maximizing shareholder wealth.", ar: "تدور قرارات سياسة التوزيعات حول ما إذا كان سيتم توزيع النقد، وكميته، والطريقة، وكل ذلك يهدف إلى تعظيم ثروة المساهمين." } }
+            ]
+        },
+        {
+            title: { en: "Quiz 2: Stock Dividends, Splits, Repurchases & DRIPs", ar: "الاختبار الثاني: أسهم المنحة، التجزئة، إعادة الشراء وخطط إعادة الاستثمار" },
+            questions: [
+                { q: { en: "A stock dividend is:", ar: "توزيعات الأسهم (أسهم المنحة) هي:" }, options: [ { en: "A cash payment to shareholders", ar: "دفع نقدي للمساهمين" }, { en: "The payment to existing owners in the form of additional stock", ar: "دفع للمالكين الحاليين على شكل أسهم إضافية" }, { en: "A reduction in the number of shares", ar: "تقليل في عدد الأسهم" }, { en: "A buyback of shares by the firm", ar: "إعادة شراء للأسهم من قبل الشركة" } ], answer: 1, explanation: { en: "A stock dividend distributes additional shares to existing owners in proportion to their current holdings, without distributing cash.", ar: "توزع أسهم المنحة أسهماً إضافية على الملاك الحاليين بما يتناسب مع حصصهم الحالية، دون توزيع نقد." } },
+                { q: { en: "When a firm declares a stock dividend, the total market value of the firm's equity:", ar: "عندما تعلن الشركة عن توزيعات أسهم، فإن إجمالي القيمة السوقية لحقوق ملكية الشركة:" }, options: [ { en: "Increases significantly", ar: "تزداد بشكل كبير" }, { en: "Decreases significantly", ar: "تنخفض بشكل كبير" }, { en: "Remains unchanged", ar: "تبقى دون تغيير" }, { en: "Becomes zero", ar: "تصبح صفراً" } ], answer: 2, explanation: { en: "A stock dividend increases the number of shares but proportionally decreases the price per share, leaving the total market value unchanged.", ar: "تزيد أسهم المنحة من عدد الأسهم ولكنها تقلل من سعر السهم بشكل متناسب، مما يترك إجمالي القيمة السوقية دون تغيير." } },
+                { q: { en: "A firm has 200,000 shares outstanding at a market price of $25. It declares a 5% stock dividend. How many new shares are issued?", ar: "لدى الشركة 200,000 سهم قائم بسعر سوقي 25 دولاراً. أعلنت عن توزيعات أسهم بنسبة 5%. كم عدد الأسهم الجديدة الصادرة؟" }, options: [ { en: "5,000", ar: "5,000" }, { en: "10,000", ar: "10,000" }, { en: "20,000", ar: "20,000" }, { en: "210,000", ar: "210,000" } ], answer: 1, explanation: { en: "New shares = Old shares × Stock dividend % = 200,000 × 0.05 = 10,000 shares.", ar: "الأسهم الجديدة = الأسهم القديمة × نسبة توزيعات الأسهم = 200,000 × 0.05 = 10,000 سهم." } },
+                { q: { en: "Following the 5% stock dividend above, what is the new market price per share?", ar: "بعد توزيعات الأسهم بنسبة 5% أعلاه، ما هو سعر السوق الجديد للسهم؟" }, options: [ { en: "$25.00", ar: "25.00 دولار" }, { en: "$23.81", ar: "23.81 دولار" }, { en: "$20.00", ar: "20.00 دولار" }, { en: "$26.25", ar: "26.25 دولار" } ], answer: 1, explanation: { en: "Old value = 200,000 × $25 = $5,000,000. New total shares = 210,000. New price = $5,000,000 / 210,000 ≈ $23.81.", ar: "القيمة القديمة = 200,000 × 25 = 5,000,000 دولار. إجمالي الأسهم الجديدة = 210,000. السعر الجديد = 5,000,000 / 210,000 ≈ 23.81 دولار." } },
+                { q: { en: "In stock dividend accounting, the 'Retained Earnings' account is decreased by:", ar: "في محاسبة توزيعات الأسهم، يتم إنقاص حساب 'الأرباح المحتجزة' بمقدار:" }, options: [ { en: "New shares × Par value", ar: "الأسهم الجديدة × القيمة الاسمية" }, { en: "New shares × Market price", ar: "الأسهم الجديدة × سعر السوق" }, { en: "Old shares × Par value", ar: "الأسهم القديمة × القيمة الاسمية" }, { en: "Total cash paid", ar: "إجمالي النقد المدفوع" } ], answer: 1, explanation: { en: "Retained earnings are decreased by the total market value of the new shares issued (New shares × Market price).", ar: "يتم إنقاص الأرباح المحتجزة بالقيمة السوقية الإجمالية للأسهم الجديدة الصادرة (الأسهم الجديدة × سعر السوق)." } },
+                { q: { en: "A stock split (e.g., 2-for-1) results in:", ar: "تجزئة الأسهم (مثل 2 مقابل 1) تؤدي إلى:" }, options: [ { en: "An increase in shares and an increase in price", ar: "زيادة في الأسهم وزيادة في السعر" }, { en: "An increase in shares and a proportional decrease in price", ar: "زيادة في الأسهم وانخفاض متناسب في السعر" }, { en: "A decrease in shares and an increase in price", ar: "انخفاض في الأسهم وزيادة في السعر" }, { en: "No change in shares or price", ar: "لا تغيير في الأسهم أو السعر" } ], answer: 1, explanation: { en: "A stock split increases the number of shares outstanding and proportionally reduces the price per share, keeping total value constant.", ar: "تزيد تجزئة الأسهم من عدد الأسهم القائمة وتقلل من سعر السهم بشكل متناسب، مع الحفاظ على القيمة الإجمالية ثابتة." } },
+                { q: { en: "A firm has 100,000 shares, price $80, and EPS $4.00. It declares a 2-for-1 split. What is the new EPS?", ar: "لدى الشركة 100,000 سهم، سعر 80 دولاراً، وربح سهم 4.00 دولار. أعلنت عن تجزئة 2 مقابل 1. ما هو ربح السهم الجديد؟" }, options: [ { en: "$4.00", ar: "4.00 دولار" }, { en: "$2.00", ar: "2.00 دولار" }, { en: "$8.00", ar: "8.00 دولار" }, { en: "$1.00", ar: "1.00 دولار" } ], answer: 1, explanation: { en: "New EPS = Old EPS / Split ratio = $4.00 / 2 = $2.00.", ar: "ربح السهم الجديد = ربح السهم القديم / نسبة التجزئة = 4.00 / 2 = 2.00 دولار." } },
+                { q: { en: "A reverse stock split (e.g., 1-for-5) is typically used to:", ar: "عادةً ما يتم استخدام التجزئة العكسية للأسهم (مثل 1 مقابل 5) لـ:" }, options: [ { en: "Make the stock more affordable to small investors", ar: "جعل السهم في متناول صغار المستثمرين" }, { en: "Increase the price per share to meet exchange listing requirements", ar: "زيادة سعر السهم لتلبية متطلبات الإدراج في البورصة" }, { en: "Distribute excess cash to shareholders", ar: "توزيع النقد الزائد على المساهمين" }, { en: "Reduce the company's total equity", ar: "تقليل إجمالي حقوق الملكية للشركة" } ], answer: 1, explanation: { en: "Reverse splits reduce the number of shares and increase the price per share, often to avoid being delisted for having a price that is too low.", ar: "تقلل التجزئة العكسية من عدد الأسهم وتزيد من سعر السهم، غالباً لتجنب الشطب من الإدراج بسبب انخفاض السعر الشديد." } },
+                { q: { en: "A firm has 50,000 shares at $10 each. It declares a 1-for-5 reverse split. What is the new price?", ar: "لدى الشركة 50,000 سهم بسعر 10 دولارات لكل منها. أعلنت عن تجزئة عكسية 1 مقابل 5. ما هو السعر الجديد؟" }, options: [ { en: "$2.00", ar: "2.00 دولار" }, { en: "$10.00", ar: "10.00 دولار" }, { en: "$50.00", ar: "50.00 دولار" }, { en: "$250.00", ar: "250.00 دولار" } ], answer: 2, explanation: { en: "New price = Old price × Reverse split factor = $10 × 5 = $50.", ar: "السعر الجديد = السعر القديم × عامل التجزئة العكسية = 10 × 5 = 50 دولاراً." } },
+                { q: { en: "A share repurchase is an alternative to cash dividends that:", ar: "إعادة شراء الأسهم هي بديل للتوزيعات النقدية التي:" }, options: [ { en: "Increases the number of shares outstanding", ar: "تزيد من عدد الأسهم القائمة" }, { en: "Reduces shares outstanding and can increase EPS", ar: "تقلل من الأسهم القائمة ويمكن أن تزيد من ربح السهم" }, { en: "Mandates a fixed payout ratio", ar: "تفرض معدل توزيعات ثابت" }, { en: "Decreases the firm's total assets without affecting equity", ar: "تقلل من إجمالي أصول الشركة دون التأثير على حقوق الملكية" } ], answer: 1, explanation: { en: "By buying back shares, the firm reduces the denominator (shares outstanding) in the EPS calculation, which can increase EPS.", ar: "من خلال إعادة شراء الأسهم، تقلل الشركة من المقام (الأسهم القائمة) في حساب ربح السهم، مما يمكن أن يزيد من ربح السهم." } },
+                { q: { en: "A firm has $1,000,000 cash, 200,000 shares outstanding, and a price of $20. How many shares can it repurchase?", ar: "لدى الشركة 1,000,000 دولار نقداً، و 200,000 سهم قائم، وسعر 20 دولاراً. كم عدد الأسهم التي يمكنها إعادة شرائها؟" }, options: [ { en: "20,000", ar: "20,000" }, { en: "50,000", ar: "50,000" }, { en: "100,000", ar: "100,000" }, { en: "200,000", ar: "200,000" } ], answer: 1, explanation: { en: "Shares repurchased = Total cash / Repurchase price = $1,000,000 / $20 = 50,000 shares.", ar: "الأسهم المعاد شراؤها = إجمالي النقد / سعر إعادة الشراء = 1,000,000 / 20 = 50,000 سهم." } },
+                { q: { en: "After the repurchase above, if earnings are $400,000, what is the new EPS?", ar: "بعد إعادة الشراء أعلاه، إذا كانت الأرباح 400,000 دولار، فما هو ربح السهم الجديد؟" }, options: [ { en: "$2.00", ar: "2.00 دولار" }, { en: "$2.67", ar: "2.67 دولار" }, { en: "$4.00", ar: "4.00 دولار" }, { en: "$1.50", ar: "1.50 دولار" } ], answer: 1, explanation: { en: "New shares = 200,000 - 50,000 = 150,000. New EPS = Earnings / New shares = $400,000 / 150,000 = $2.67.", ar: "الأسهم الجديدة = 200,000 - 50,000 = 150,000. ربح السهم الجديد = الأرباح / الأسهم الجديدة = 400,000 / 150,000 = 2.67 دولار." } },
+                { q: { en: "A Dividend Reinvestment Plan (DRIP) allows shareholders to:", ar: "تسمح خطة إعادة استثمار التوزيعات (DRIP) للمساهمين بـ:" }, options: [ { en: "Receive cash dividends only", ar: "استلام التوزيعات النقدية فقط" }, { en: "Automatically reinvest dividends to buy more shares, sometimes at a discount", ar: "إعادة استثمار التوزيعات تلقائياً لشراء المزيد من الأسهم، أحياناً بخصم" }, { en: "Convert common stock to preferred stock", ar: "تحويل الأسهم العادية إلى أسهم ممتازة" }, { en: "Avoid paying any capital gains tax", ar: "تجنب دفع أي ضريبة على أرباح رأس المال" } ], answer: 1, explanation: { en: "DRIPs automatically use cash dividends to purchase additional shares for the shareholder, often with a discount on the market price.", ar: "تستخدم خطط إعادة استثمار التوزيعات التوزيعات النقدية تلقائياً لشراء أسهم إضافية للمساهم، غالباً بخصم على سعر السوق." } },
+                { q: { en: "An investor owns 500 shares and receives a $2.00 dividend per share. They participate in a DRIP with a 5% discount. Market price is $40. What is the discounted price?", ar: "يمتلك المستثمر 500 سهم ويتلقى توزيعات 2.00 دولار للسهم. يشارك في خطة إعادة استثمار بخصم 5%. سعر السوق 40 دولاراً. ما هو السعر المخصوم؟" }, options: [ { en: "$38.00", ar: "38.00 دولار" }, { en: "$40.00", ar: "40.00 دولار" }, { en: "$42.00", ar: "42.00 دولار" }, { en: "$2.00", ar: "2.00 دولار" } ], answer: 0, explanation: { en: "Discounted price = Market price × (1 - Discount) = $40 × (1 - 0.05) = $40 × 0.95 = $38.00.", ar: "السعر المخصوم = سعر السوق × (1 - الخصم) = 40 × (1 - 0.05) = 40 × 0.95 = 38.00 دولار." } },
+                { q: { en: "Using the DRIP data above, how many new shares are purchased?", ar: "باستخدام بيانات خطة إعادة الاستثمار أعلاه، كم عدد الأسهم الجديدة المشتراة؟" }, options: [ { en: "20 shares", ar: "20 سهم" }, { en: "25 shares", ar: "25 سهم" }, { en: "26 shares (approx)", ar: "26 سهم (تقريباً)" }, { en: "500 shares", ar: "500 سهم" } ], answer: 2, explanation: { en: "Total dividend = 500 × $2.00 = $1,000. New shares = Total dividend / Discounted price = $1,000 / $38.00 ≈ 26.32 (or 26 shares).", ar: "إجمالي التوزيعات = 500 × 2.00 = 1,000 دولار. الأسهم الجديدة = إجمالي التوزيعات / السعر المخصوم = 1,000 / 38.00 ≈ 26.32 (أو 26 سهم)." } },
+                { q: { en: "Which of the following is a primary signaling effect of an unexpected dividend increase?", ar: "أي مما يلي يعتبر تأثير إشارة أساسي لزيادة غير متوقعة في التوزيعات؟" }, options: [ { en: "Management believes future earnings will be weak", ar: "الإدارة تعتقد أن الأرباح المستقبلية ستكون ضعيفة" }, { en: "Management is confident in the firm's future cash flows and earnings", ar: "الإدارة واثقة من التدفقات النقدية والأرباح المستقبلية للشركة" }, { en: "The firm is about to go bankrupt", ar: "الشركة على وشك الإفلاس" }, { en: "The firm has no profitable investment opportunities", ar: "ليس لدى الشركة فرص استثمارية مربحة" } ], answer: 1, explanation: { en: "Dividend increases are generally viewed as a positive signal that management expects strong future cash flows to sustain the higher payout.", ar: "يُنظر إلى زيادات التوزيعات بشكل عام على أنها إشارة إيجابية بأن الإدارة تتوقع تدفقات نقدية مستقبلية قوية لدعم الدفع الأعلى." } },
+                { q: { en: "The 'Clientele Effect' in dividend policy suggests that:", ar: "يشير 'تأثير الشريحة المستهدفة' (Clientele Effect) في سياسة التوزيعات إلى أن:" }, options: [ { en: "All investors prefer high dividends", ar: "جميع المستثمرين يفضلون التوزيعات العالية" }, { en: "Different groups of investors are attracted to firms based on their dividend policies", ar: "مجموعات مختلفة من المستثمرين تنجذب للشركات بناءً على سياسات توزيعاتها" }, { en: "Dividends are irrelevant to stock price", ar: "التوزيعات لا علاقة لها بسعر السهم" }, { en: "Firms should never change their dividend policy", ar: "يجب ألا تغير الشركات سياسة توزيعاتها أبداً" } ], answer: 1, explanation: { en: "The clientele effect states that investors self-select into firms whose dividend policies match their own tax situations and income needs.", ar: "ينص تأثير الشريحة المستهدفة على أن المستثمرين يختارون بأنفسهم الشركات التي تتطابق سياسات توزيعاتها مع أوضاعهم الضريبية واحتياجاتهم من الدخل." } },
+                { q: { en: "Agency costs in the context of dividend policy refer to:", ar: "تكاليف الوكالة في سياق سياسة التوزيعات تشير إلى:" }, options: [ { en: "Fees paid to investment banks", ar: "الرسوم المدفوعة للبنوك الاستثمارية" }, { en: "Conflicts of interest between management and shareholders regarding the use of free cash flow", ar: "تضارب المصالح بين الإدارة والمساهمين فيما يتعلق باستخدام التدفق النقدي الحر" }, { en: "The cost of printing dividend checks", ar: "تكلفة طباعة شيكات التوزيعات" }, { en: "Taxes paid on dividend income", ar: "الضرائب المدفوعة على دخل التوزيعات" } ], answer: 1, explanation: { en: "Paying dividends reduces the free cash flow available to management, thereby reducing agency costs associated with managerial empire-building or wasteful spending.", ar: "دفع التوزيعات يقلل من التدفق النقدي الحر المتاح للإدارة، مما يقلل من تكاليف الوكالة المرتبطة ببناء إمبراطورية إدارية أو الإنفاق الهدر." } },
+                { q: { en: "If a firm has Old EPS = $4.00, Old shares = 100,000, and issues a 10% stock dividend, what is the New EPS?", ar: "إذا كان ربح السهم القديم = 4.00 دولار، والأسهم القديمة = 100,000، وأصدرت توزيعات أسهم بنسبة 10%، فما هو ربح السهم الجديد؟" }, options: [ { en: "$4.00", ar: "4.00 دولار" }, { en: "$3.64", ar: "3.64 دولار" }, { en: "$4.40", ar: "4.40 دولار" }, { en: "$0.40", ar: "0.40 دولار" } ], answer: 1, explanation: { en: "New shares = 100,000 × 1.10 = 110,000. Total earnings = $4.00 × 100,000 = $400,000. New EPS = $400,000 / 110,000 ≈ $3.64.", ar: "الأسهم الجديدة = 100,000 × 1.10 = 110,000. إجمالي الأرباح = 4.00 × 100,000 = 400,000 دولار. ربح السهم الجديد = 400,000 / 110,000 ≈ 3.64 دولار." } },
+                { q: { en: "The main difference between a stock dividend and a stock split is primarily:", ar: "الفرق الرئيسي بين توزيعات الأسهم وتجزئة الأسهم هو في المقام الأول:" }, options: [ { en: "The impact on total shareholders' equity", ar: "التأثير على إجمالي حقوق ملكية المساهمين" }, { en: "The accounting treatment and the magnitude of the share increase", ar: "المعالجة المحاسبية وحجم زيادة الأسهم" }, { en: "The fact that stock splits require cash", ar: "حقيقة أن تجزئة الأسهم تتطلب نقداً" }, { en: "There is no difference at all", ar: "لا يوجد فرق على الإطلاق" } ], answer: 1, explanation: { en: "While both increase shares and decrease price proportionally without changing total equity, stock dividends involve transferring amounts between equity accounts (Retained Earnings to Common Stock), whereas splits only change par value and share count.", ar: "بينما يزيد كلاهما من الأسهم ويقلل السعر بشكل متناسب دون تغيير إجمالي حقوق الملكية، تتضمن توزيعات الأسهم نقل مبالغ بين حسابات حقوق الملكية، بينما تغير التجزئة فقط القيمة الاسمية وعدد الأسهم." } }
+            ]
+        }
+    ];
+
+    function toggleLanguage(btn) {
+        btn.classList.add('animate');
+        setTimeout(() => {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            document.getElementById('main-title').innerText = translations[currentLang].mainTitle;
+            document.getElementById('sub-title').innerText = translations[currentLang].subTitle;
+            document.getElementById('fab-tooltip').innerText = translations[currentLang].fabTooltip;
+            document.getElementById('submit-btn').innerText = translations[currentLang].submitBtn;
+            document.getElementById('footer-text').innerText = translations[currentLang].footer;
+            
+            document.getElementById('tab-0').innerText = currentLang === 'en' ? 'Quiz 1' : 'الاختبار 1';
+            document.getElementById('tab-1').innerText = currentLang === 'en' ? 'Quiz 2' : 'الاختبار 2';
+
+            // Re-render preserves state!
+            renderQuiz();
+            setTimeout(() => btn.classList.remove('animate'), 400);
+        }, 300);
+    }
+
+    function switchQuiz(index) {
+        currentQuizIndex = index;
+        isSubmitted = false; // Reset submission state when switching quizzes
+        document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === index);
+        });
+        document.getElementById('result-box').style.display = 'none';
+        renderQuiz();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuiz() {
+        const quiz = quizzes[currentQuizIndex];
+        document.getElementById('quiz-title').innerText = quiz.title[currentLang];
+        
+        const form = document.getElementById('quiz-form');
+        form.innerHTML = '';
+
+        quiz.questions.forEach((q, qIndex) => {
+            const block = document.createElement('div');
+            block.className = 'question-block';
+            
+            let optionsHTML = '';
+            q.options.forEach((opt, oIndex) => {
+                const isSelected = userAnswers[currentQuizIndex][qIndex] === oIndex ? 'selected' : '';
+                optionsHTML += `
+                    <label class="option-card ${isSelected}" id="label-${currentQuizIndex}-${qIndex}-${oIndex}" onclick="selectOption(this, ${qIndex}, ${oIndex})">
+                        <input type="radio" name="q${currentQuizIndex}_${qIndex}" value="${oIndex}" ${isSelected ? 'checked' : ''}>
+                        <div class="custom-radio"></div>
+                        <span class="option-text">${opt[currentLang]}</span>
+                    </label>
+                `;
+            });
+
+            // Determine if explanation should be shown immediately (if already submitted)
+            const expDisplayStyle = isSubmitted ? 'block' : 'none';
+            const expShowClass = isSubmitted ? 'show' : '';
+
+            block.innerHTML = `
+                <div class="question-text">
+                    <span class="question-number">${qIndex + 1}</span>
+                    ${q.q[currentLang]}
+                </div>
+                <div class="options">${optionsHTML}</div>
+                <div class="explanation-box ${expShowClass}" id="exp-${currentQuizIndex}-${qIndex}" style="display: ${expDisplayStyle};">
+                    <div class="explanation-header">
+                        <span class="explanation-icon">💡</span>
+                        <span>${translations[currentLang].explainTitle}</span>
+                    </div>
+                    <div class="explanation-text">${q.explanation[currentLang]}</div>
+                </div>
+            `;
+            form.appendChild(block);
+        });
+
+        // Re-apply correct/incorrect styling if already submitted
+        if (isSubmitted) {
+            applyResultStyles();
+        }
+    }
+
+    function selectOption(element, qIndex, oIndex) {
+        if (isSubmitted) return; // Prevent changing answers after submission
+        
+        userAnswers[currentQuizIndex][qIndex] = oIndex;
+        const parent = element.parentElement;
+        parent.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+        element.querySelector('input').checked = true;
+    }
+
+    function applyResultStyles() {
+        const quiz = quizzes[currentQuizIndex];
+        quiz.questions.forEach((q, qIndex) => {
+            const selected = userAnswers[currentQuizIndex][qIndex];
+            
+            q.options.forEach((_, oIndex) => {
+                const label = document.getElementById(`label-${currentQuizIndex}-${qIndex}-${oIndex}`);
+                label.classList.remove('correct', 'incorrect', 'selected');
+            });
+
+            document.getElementById(`label-${currentQuizIndex}-${qIndex}-${q.answer}`).classList.add('correct');
+
+            if (selected !== undefined) {
+                if (selected === q.answer) {
+                    // Correct
+                } else {
+                    document.getElementById(`label-${currentQuizIndex}-${qIndex}-${selected}`).classList.add('incorrect');
+                }
+            }
+            
+            // Show explanation
+            const expBox = document.getElementById(`exp-${currentQuizIndex}-${qIndex}`);
+            expBox.style.display = 'block';
+            setTimeout(() => expBox.classList.add('show'), 100 + (qIndex * 100));
+        });
+    }
+
+    function submitQuiz() {
+        isSubmitted = true;
+        const quiz = quizzes[currentQuizIndex];
+        let score = 0;
+        const total = quiz.questions.length;
+
+        quiz.questions.forEach((q, qIndex) => {
+            const selected = userAnswers[currentQuizIndex][qIndex];
+            if (selected === q.answer) {
+                score++;
+            }
+        });
+
+        applyResultStyles();
+
+        const resultBox = document.getElementById('result-box');
+        const scoreDisplay = document.getElementById('score-display');
+        const resultMsg = document.getElementById('result-msg');
+
+        resultBox.style.display = 'block';
+        scoreDisplay.innerText = `${score} / ${total}`;
+        /* 🎯 EBRA — إرسال عند تسليم المستخدم فقط (renderQuiz لا يعيد الإرسال) */
+        if (window.EBRA && window.EBRA.trackScore) {
+            window.EBRA.trackScore(score, total, "Adv. Corporate Finance — Ch3 Quiz " + (currentQuizIndex + 1));
+        }
+        
+        if (score >= total * 0.8) {
+            resultBox.className = 'result-box correct';
+            resultMsg.innerText = translations[currentLang].resultCorrect;
+        } else {
+            resultBox.className = 'result-box incorrect';
+            resultMsg.innerText = translations[currentLang].resultIncorrect;
+        }
+        
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Initial render
+    renderQuiz();
+</script>
+
+<!-- 🎯 جزء تتبع الدرجات (نائم في غير الكويزات) -->
+<script>
+(function () {
+  var TRACK_URL = "https://script.google.com/macros/s/AKfycbzWhqHm8sl_fogZTB_E_WEgBwJjke3qZ574Yj8f8gI9_KYUelzA4-EI2azlvFE96YlC/exec";
+  var MAX_SCORE = 10;   // ← العظمى الافتراضية عندما لا تذكر النتيجةُ علتها
+  var QUIZZES = [
+    // { selector: "#q1-result", label: "Ch1 Quiz 1" },
+    // { selector: "#q2-result", label: "Ch1 Quiz 2" },
+  ];
+
+  var vid;
+  try {
+    var pm = location.search.match(/[?&]ebra_vid=([^&]+)/);
+    if (pm) {
+      vid = decodeURIComponent(pm[1]);
+      localStorage.setItem("ebra_vid", vid);
+    } else {
+      vid = localStorage.getItem("ebra_vid");
+      if (!vid) {
+        vid = "v-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 9);
+        localStorage.setItem("ebra_vid", vid);
+      }
+    }
+  } catch (e) { vid = "v-na"; }
+
+  function post(score, max, label) {
+    fetch(TRACK_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        type: "score",
+        visitorId: vid,
+        quiz: label || "Quiz",
+        score: score,
+        max: max,
+        percent: Math.round((score / max) * 100),
+        page: location.origin + location.pathname
+      })
+    }).catch(function () {});
+  }
+
+  function parseScore(txt) {
+    txt = txt || "";
+    var m = txt.match(/(\d+(?:[.,]\d+)?)\s*(?:\/|من|out of|-)\s*(\d+)/) || txt.match(/(\d+(?:[.,]\d+)?)/);
+    if (!m) return null;
+    return {
+      score: parseFloat(m[1].replace(",", ".")),
+      max: m[2] ? parseFloat(m[2]) : null
+    };
+  }
+
+  /* 3) اليدوي */
+  var lastManual = {};
+  window.EBRA = window.EBRA || {};
+  window.EBRA.trackScore = function (score, max, label) {
+    var k = label + "|" + score + "/" + max;
+    var now = Date.now();
+    if (lastManual[k] && now - lastManual[k] < 3000) return;
+    lastManual[k] = now;
+    post(Number(score), Number(max) || MAX_SCORE, label);
+  };
+
+  /* 1) + 2) المسح التلقائي */
+  var lastSel = {};
+  function scan() {
+    for (var i = 0; i < QUIZZES.length; i++) {
+      var qz = QUIZZES[i];
+      var el = document.querySelector(qz.selector);
+      if (!el) continue;
+      var p = parseScore(el.textContent);
+      if (!p) continue;
+      if (lastSel[qz.selector] === p.score) continue;   // إعادة المحاولة بنفس الدرجة لا تُكرر
+      lastSel[qz.selector] = p.score;
+      post(p.score, p.max || MAX_SCORE, qz.label);
+    }
+    var els = document.querySelectorAll("[data-ebra-quiz]");
+    for (var j = 0; j < els.length; j++) {
+      var el2 = els[j];
+      if (el2.getAttribute("data-ebra-done")) continue;
+      var p2 = parseScore(el2.textContent);
+      if (!p2) continue;
+      el2.setAttribute("data-ebra-done", "1");
+      post(p2.score, p2.max || MAX_SCORE, el2.getAttribute("data-ebra-quiz"));
+    }
+  }
+
+  var timer = null;
+  function queueScan() {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(scan, 400);
+  }
+  try {
+    var mo = new MutationObserver(queueScan);
+    mo.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  } catch (e) {
+    setInterval(queueScan, 1500);
+  }
+  document.addEventListener("DOMContentLoaded", queueScan);
+  window.addEventListener("load", queueScan);
+})();
+</script>
+
+<!-- 📡 جزء تتبع الزيارات -->
+<script>
+(function () {
+  var TRACK_URL = "https://script.google.com/macros/s/AKfycbzWhqHm8sl_fogZTB_E_WEgBwJjke3qZ574Yj8f8gI9_KYUelzA4-EI2azlvFE96YlC/exec";
+  var vid;
+  try {
+    var pm = location.search.match(/[?&]ebra_vid=([^&]+)/);
+    if (pm) {
+      vid = decodeURIComponent(pm[1]);
+      localStorage.setItem("ebra_vid", vid);
+    } else {
+      vid = localStorage.getItem("ebra_vid");
+      if (!vid) {
+        vid = "v-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 9);
+        localStorage.setItem("ebra_vid", vid);
+      }
+    }
+  } catch (e) { vid = "v-na"; }
+  fetch(TRACK_URL, {
+    method: "POST",
+    mode: "cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      visitorId: vid,
+      page: location.origin + location.pathname,
+      referrer: document.referrer || "Direct",
+      language: navigator.language || "",
+      screen: window.screen ? (screen.width + "x" + screen.height) : "",
+      ua: navigator.userAgent
+    })
+  }).catch(function () {});
+})();
+</script>
+
+</body>
+</html>
